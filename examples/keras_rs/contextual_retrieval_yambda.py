@@ -223,11 +223,19 @@ class ContextualRetrievalModel(keras.Model):
         self.loss_tracker = keras.metrics.Mean(name="loss")
 
     def build(self, input_shape):
-        super().build(input_shape)
-        # Bind the item embeddings to the retrieval layer
+        # 1. Build the candidate item embedding layer manually.
+        # Why? Because it's only used in compute_loss(), not in call(),
+        # so super().build() won't automatically build it!
+        self.item_embedding.build((None,))
+
+        # 2. Now it is safe to access the embeddings matrix
         self.retrieval.candidate_embeddings = self.item_embedding.embeddings
-        # The retrieval layer expects the shape of the query embeddings (batch, embed_dim)
+
+        # 3. Build the retrieval layer expecting the query embedding shape
         self.retrieval.build((None, self.query_dense.units))
+
+        # 4. Let Keras build the rest of the model (User, Context, Dense) automatically
+        super().build(input_shape)
 
     def call(self, inputs):
         # 1. Extract and embed query inputs
