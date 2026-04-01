@@ -224,14 +224,11 @@ class ContextualRetrievalModel(keras.Model):
         self.loss_tracker = keras.metrics.Mean(name="loss")
 
     def build(self, input_shape):
-        self.user_embedding.build(input_shape)
-        self.context_embedding.build(input_shape)
-        self.item_embedding.build(input_shape)
-
+        super().build(input_shape)
         # Bind the item embeddings to the retrieval layer
         self.retrieval.candidate_embeddings = self.item_embedding.embeddings
-        self.retrieval.build(input_shape)
-        super().build(input_shape)
+        # The retrieval layer expects the shape of the query embeddings (batch, embed_dim)
+        self.retrieval.build((None, self.query_dense.units))
 
     def call(self, inputs):
         # 1. Extract and embed query inputs
