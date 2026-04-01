@@ -50,48 +50,6 @@ import numpy as np
 import tensorflow as tf
 from datasets import load_dataset
 ```
-<div class="k-default-codeblock">
-```
-ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
-tensorflow 2.19.1 requires protobuf!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<6.0.0dev,>=3.20.3, but you have protobuf 7.34.1 which is incompatible.
-proto-plus 1.27.1 requires protobuf<7.0.0,>=3.19.0, but you have protobuf 7.34.1 which is incompatible.
-google-api-core 2.30.0 requires protobuf<7.0.0,>=4.25.8, but you have protobuf 7.34.1 which is incompatible.
-googleapis-common-protos 1.73.0 requires protobuf!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<7.0.0,>=3.20.2, but you have protobuf 7.34.1 which is incompatible.
-
-/usr/local/lib/python3.12/dist-packages/jax/_src/cloud_tpu_init.py:93: UserWarning: Transparent hugepages are not enabled. TPU runtime startup and shutdown time should be significantly improved on TPU v5e and newer. If not already set, you may need to enable transparent hugepages in your VM image (sudo sh -c "echo always > /sys/kernel/mm/transparent_hugepage/enabled")
-  warnings.warn(
-
----------------------------------------------------------------------------
-
-AttributeError                            Traceback (most recent call last)
-
-AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
-
----------------------------------------------------------------------------
-
-AttributeError                            Traceback (most recent call last)
-
-AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
-
----------------------------------------------------------------------------
-
-AttributeError                            Traceback (most recent call last)
-
-AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
-
----------------------------------------------------------------------------
-
-AttributeError                            Traceback (most recent call last)
-
-AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
-
----------------------------------------------------------------------------
-
-AttributeError                            Traceback (most recent call last)
-
-AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
-```
-</div>
 
 ---
 ## TPU Distribution Strategy
@@ -162,16 +120,6 @@ print(f"Remaining positive interactions: {len(positive_dataset)}")
 <div class="k-default-codeblock">
 ```
 Downloading Yambda dataset subset...
-
-/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_auth.py:104: UserWarning: 
-Error while fetching `HF_TOKEN` secret value from your vault: 'Requesting secret HF_TOKEN timed out. Secrets can only be fetched when running from the Colab UI.'.
-You are not authenticated with the Hugging Face Hub in this notebook.
-If the error persists, please let us know by opening an issue on GitHub (https://github.com/huggingface/huggingface_hub/issues/new).
-  warnings.warn(
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-
-WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-
 Filtering positive interactions...
 Remaining positive interactions: 1492025
 ```
