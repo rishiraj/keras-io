@@ -219,7 +219,7 @@ class ContextualRetrievalModel(keras.Model):
 
         # Loss tracking
         self.loss_fn = keras.losses.CategoricalCrossentropy(
-            from_logits=True, reduction="sum"
+            from_logits=True
         )
         self.loss_tracker = keras.metrics.Mean(name="loss")
 
