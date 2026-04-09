@@ -82,25 +82,56 @@ class KerasIO:
             preexisting = [e["path"] for e in children]
             subdir = entry["path"]  # e.g. nlp
             path = Path(self.examples_dir) / subdir  # e.g. examples/nlp
-            for fname in sorted(os.listdir(path)):
-                if fname.endswith(".py"):  # e.g. examples/nlp/test.py
-                    name = fname[:-3]
-                    example_path = name.split("/")[-1]
-                    if example_path not in preexisting:
-                        f = open(path / fname, encoding="utf-8")
-                        f.readline()
-                        title_line = f.readline()
-                        f.close()
-                        assert title_line.startswith("Title: ")
-                        title = title_line[len("Title: ") :]
-                        children.append(
-                            {
-                                "path": example_path,
-                                "title": title.strip(),
-                                "keras_3": True,
-                            }
-                        )
+            
+            if os.path.exists(path):
+                for fname in sorted(os.listdir(path)):
+                    if fname.endswith(".py"):  # e.g. examples/nlp/test.py
+                        name = fname[:-3]
+                        example_path = name.split("/")[-1]
+                        if example_path not in preexisting:
+                            f = open(path / fname, encoding="utf-8")
+                            f.readline()
+                            title_line = f.readline()
+                            f.close()
+                            assert title_line.startswith("Title: ")
+                            title = title_line[len("Title: ") :]
+                            children.append(
+                                {
+                                    "path": example_path,
+                                    "title": title.strip(),
+                                    "keras_3": True,
+                                }
+                            )
             entry["children"] = children
+
+        rs_entry = next((e for e in self.master["children"] if e["path"] == "keras_rs/"), None)
+        if rs_entry:
+            rs_examples_entry = next((e for e in rs_entry.get("children", []) if e["path"] == "examples/"), None)
+            if rs_examples_entry:
+                children = rs_examples_entry.get("children", [])
+                preexisting = [e["path"] for e in children]
+                path = Path(self.examples_dir) / "keras_rs"
+                
+                if os.path.exists(path):
+                    for fname in sorted(os.listdir(path)):
+                        if fname.endswith(".py"):
+                            name = fname[:-3]
+                            example_path = name.split("/")[-1]
+                            if example_path not in preexisting:
+                                f = open(path / fname, encoding="utf-8")
+                                f.readline()
+                                title_line = f.readline()
+                                f.close()
+                                assert title_line.startswith("Title: ")
+                                title = title_line[len("Title: ") :]
+                                children.append(
+                                    {
+                                        "path": example_path,
+                                        "title": title.strip(),
+                                        "keras_3": True,
+                                    }
+                                )
+                rs_examples_entry["children"] = children
 
     def make_md_sources(self):
         print("Generating md sources")
